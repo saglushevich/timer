@@ -1,12 +1,28 @@
-import './Buttons.sass'
+import './Buttons.sass';
 
-function Buttons () {
+function Buttons (props) {
+
+    let {timerType, setTimerType} = props
+
+    const types = [
+        {type: 'timer', title: "Отсчет"},
+        {type: 'short', title: "Короткий перерыв"},
+        {type: 'long', title: "Большой перерыв"},
+    ]
+
+    const btns = types.map(item => {
+        const {type, title} = item;
+        const active = type === timerType;
+        const activeClass = active ? "buttons__item buttons__item_active" : "buttons__item";
+        return (
+            <div key={title} onClick={() => setTimerType(type)} className={activeClass}>{title}</div>
+        )
+    })
+
     return (
         <div className="buttons">
             <div className="buttons__wrapper">
-                <div className="buttons__item buttons__item_active">Отсчет</div>
-                <div className="buttons__item">Короткий перерыв</div>
-                <div className="buttons__item">Большой перерыв</div>
+                {btns}
             </div>
         </div>
     )
