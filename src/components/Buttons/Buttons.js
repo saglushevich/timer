@@ -15,7 +15,7 @@ function Buttons (props) {
         const active = type === timerType;
         const activeClass = active ? "buttons__item buttons__item_active" : "buttons__item";
         return (
-            <div key={title} onClick={() => setTimerType(type)} className={activeClass}>{title}</div>
+            <div key={title} onClick={() => setTimerType(type)}  className={activeClass}>{title}</div>
         )
     })
 
