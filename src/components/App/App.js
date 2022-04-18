@@ -12,19 +12,19 @@ function App() {
     useEffect(() => {
         switch (timerType) {
             case "short":
-                setTimerStatus(false)
-                setTime(300);
-                setInitialTime(300)
+                setTimerStatus(false);
+                setInitialTime(300);
+                setTime(sessionStorage.getItem('time')|| 300);
                 break;
             case "long":
-                setTimerStatus(false)
-                setTime(900)
-                setInitialTime(900)
+                setTimerStatus(false);
+                setInitialTime(900);
+                setTime(time => 900);
                 break;
             default: 
-                setTimerStatus(false)
-                setTime(3600)
-                setInitialTime(3600)
+                setTimerStatus(false);
+                setInitialTime(3600);
+                setTime(time => 3600);
                 break;
         }    
     }, [timerType])

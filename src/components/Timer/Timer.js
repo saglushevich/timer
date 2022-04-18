@@ -1,10 +1,12 @@
 /* eslint-disable eqeqeq */
 /* eslint-disable react-hooks/exhaustive-deps */
 import './Timer.sass'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 
 function Timer (props) {
     const {time, setTime, initialTime, timerStatus, setTimerStatus} = props;
+    const [minutes, setMinutes] = useState(0);
+    const [seconds, setSeconds] = useState(0);
 
     const startTimer = () => {
         if (time > 0 && timerStatus) {
@@ -20,20 +22,18 @@ function Timer (props) {
 
     const resetTimer = () => {
         sessionStorage.removeItem("time")
-        setTime(3600)
+        setTime(initialTime)
         setTimerStatus(true)
     }
 
     useEffect(() => {
-        startTimer();
         if (sessionStorage.getItem("time") == 0) {
             sessionStorage.removeItem("time")
         }
+        startTimer();
+        setMinutes(minutes => Math.floor(time / 60));
+        setSeconds(seconds => time % 60)
     }, [timerStatus, time])
-
-    let minutes = Math.floor(time / 60)
-    let seconds = time % 60;
-
 
     return (
         <div className="timer">
