@@ -37,7 +37,7 @@ function App() {
             <div className="container">
                 <Buttons setTimerType={setTimerType} timerType={timerType}/>
                 <Timer time={time} setTime={setTime} initialTime={initialTime} timerStatus={timerStatus} setTimerStatus={setTimerStatus}/>
-                <Settings/>
+                <Settings time={time} setTime={setTime} setInitialTime={setInitialTime}/>
             </div>
         </div>
     );
