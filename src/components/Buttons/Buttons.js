@@ -1,8 +1,10 @@
 import './Buttons.sass';
+import {useSelector, useDispatch} from 'react-redux'
+import {setTimerType} from '../reduxAction/reduxAction'
 
-function Buttons (props) {
-
-    let {timerType, setTimerType} = props
+function Buttons () {
+    const dispatch = useDispatch();
+    const timerType = useSelector(state => state.timerType)
 
     const types = [
         {type: 'timer', title: "Отсчет"},
@@ -15,7 +17,7 @@ function Buttons (props) {
         const active = type === timerType;
         const activeClass = active ? "buttons__item buttons__item_active" : "buttons__item";
         return (
-            <div key={title} onClick={() => setTimerType(type)}  className={activeClass}>{title}</div>
+            <div key={title} onClick={() => dispatch(setTimerType(type))}  className={activeClass}>{title}</div>
         )
     })
 

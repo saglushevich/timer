@@ -3,18 +3,25 @@
 import './Timer.sass'
 import {useEffect, useState} from 'react'
 
-function Timer (props) {
-    const {time, setTime, initialTime, timerStatus, setTimerStatus} = props;
+import {useSelector, useDispatch} from 'react-redux'
+import {setTime, setTimerStatus} from '../reduxAction/reduxAction'
+
+function Timer () {
     const [minutes, setMinutes] = useState(0);
     const [seconds, setSeconds] = useState(0);
+    const time = useSelector(state => state.time);
+    const timerStatus = useSelector(state => state.timerStatus);
+    const initialTime = useSelector(state => state.initialTime);
+
+    const dispatch = useDispatch();
 
     const startTimer = () => {
         if (time > 0 && timerStatus) {
             setTimeout(() => {
-                setTime(time => time - 1)
+                dispatch(setTime(time - 1))
             }, 1000)
         } else {
-            setTimerStatus(false)
+            dispatch(setTimerStatus(false))
             sessionStorage.removeItem("time")
         }
         sessionStorage.setItem('time', time)
@@ -22,8 +29,8 @@ function Timer (props) {
 
     const resetTimer = () => {
         sessionStorage.removeItem("time")
-        setTime(initialTime)
-        setTimerStatus(true)
+        dispatch(setTime(initialTime))
+        dispatch(setTimerStatus(true))
     }
 
     useEffect(() => {
@@ -42,7 +49,7 @@ function Timer (props) {
                     <div className="timer__progress" style={{"background" : `conic-gradient(#F87070 ${(time * 100) / initialTime}%, #161932 0%)`}}>
                         <div className="timer__info">
                             <div className="timer__time">{minutes}:{seconds >= 10 ? seconds : `0${seconds}`}</div>
-                            <div onClick={() => setTimerStatus(timerStatus => !timerStatus)} style={time ? {"display" : "block"} : {"display" : "none"}} className="timer__btn">{timerStatus ? "Стоп" : "Старт"}</div>
+                            <div onClick={() => dispatch(setTimerStatus(!timerStatus))} style={time ? {"display" : "block"} : {"display" : "none"}} className="timer__btn">{timerStatus ? "Стоп" : "Старт"}</div>
                             <div onClick={resetTimer} style={time ? {"display" : "none"} : {"display" : "block"}} className="timer__btn">Запуск</div>
                         </div>
                     </div>

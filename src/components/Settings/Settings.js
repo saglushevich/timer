@@ -2,8 +2,14 @@ import './Settings.sass'
 import settingsIcon from '../../resources/settings.svg'
 import {useState} from 'react'
 
-function Settings (props) {
-    const {time, setTime, setInitialTime} = props;
+import {useSelector, useDispatch} from 'react-redux'
+import {setTime, setInitialTime} from '../reduxAction/reduxAction'
+
+function Settings () {
+
+    const time = useSelector(state => state.time);
+    const dispatch = useDispatch();
+
     const [countdown, setCountdown] = useState(time)
     const [modalState, setModalState] = useState(false)
 
@@ -13,8 +19,8 @@ function Settings (props) {
 
     const onFormSubmit = (e) => {
         e.preventDefault();
-        setTime(countdown)
-        setInitialTime(countdown)
+        dispatch(setTime(countdown))
+        dispatch(setInitialTime(countdown))
         setModalState(false)
     }
 
@@ -67,10 +73,4 @@ function Settings (props) {
         </div>
     )
 }
-
-// function SettingsModal () {
-//     return (
-        
-//     )
-// }
 export default Settings
