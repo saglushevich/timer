@@ -39,3 +39,17 @@ export const setTimerStatus = (value) => {
         payload: value
     }
 }
+
+export const setMainColor = (value) => {
+    return {
+        type: "SET_COLOR",
+        payload: value
+    }
+}
+
+export const setMainFont = (value) => {
+    return {
+        type: "SET_FONT",
+        payload: value
+    }
+}

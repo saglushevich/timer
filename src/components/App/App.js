@@ -4,34 +4,34 @@ import Buttons from "../Buttons/Buttons";
 import Settings from "../Settings/Settings";
 import '../../styles/styles.sass'
 import {useEffect} from 'react'
-
 import {useSelector, useDispatch} from 'react-redux'
-import {setTime, setShortBrake, setLongBrake, setInitialTime, setTimerStatus} from '../reduxAction/reduxAction'
+import {setTime, setInitialTime, setTimerStatus} from '../reduxAction/reduxAction'
 
 function App() {
     const timerType = useSelector(state => state.timerType)
     const dispatch = useDispatch();
 
+    const shortBrake = useSelector(state => state.shortBrake);
+    const longBrake = useSelector(state => state.longBrake)
+
+    const makeChangesDependingOnType = (time) => {
+        dispatch(setTime(time));
+        dispatch(setTimerStatus(false))
+        dispatch(setInitialTime(time));
+    }
+
     useEffect(() => {
-        console.log(timerType)
         switch (timerType) {
             case "short":
-                dispatch(setTimerStatus(false))
-                dispatch(setInitialTime(300));
-                dispatch(setTime(300));
+                makeChangesDependingOnType(shortBrake);
                 break;
             case "long":
-                dispatch(setTimerStatus(false));
-                dispatch(setInitialTime(900));
-                dispatch(setTime(900));
+                makeChangesDependingOnType(longBrake);
                 break;
             case "timer": 
-                dispatch(setTimerStatus(false));
-                dispatch(setInitialTime(3600));
-                dispatch(setTime(3600));
+                makeChangesDependingOnType(3600);
                 break;
             default:
-                console.log(sessionStorage.getItem('time'))
                 dispatch(setTime(sessionStorage.getItem('time')))
         }    
     }, [timerType])

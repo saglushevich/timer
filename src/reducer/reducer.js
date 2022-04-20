@@ -1,10 +1,12 @@
 const initialState = {
     time: sessionStorage.getItem('time') || 3600,
     initialTime: 3600,
-    shortBrake: 300,
-    longBrake: 900,
+    shortBrake:  sessionStorage.getItem('shortBrake') || 300,
+    longBrake:  sessionStorage.getItem('longBrake') || 900,
     timerType: sessionStorage.getItem("time") && sessionStorage.getItem("time") < 3600 ? 'timers' : 'timer',
-    timerStatus: false
+    timerStatus: false,
+    mainColor: sessionStorage.getItem('color') || '#F87070',
+    mainFont: sessionStorage.getItem('font') || 'Kumbh Sans'
 }
 
 const reducer = (state = initialState, action) => {
@@ -21,6 +23,10 @@ const reducer = (state = initialState, action) => {
             return {...state, timerType: action.payload}
         case "SET_TIMER_STATUS":
             return {...state, timerStatus: action.payload}
+        case "SET_COLOR":
+            return {...state, mainColor: action.payload}
+        case "SET_FONT":
+            return {...state, mainFont: action.payload}
         default:
             return state
     }

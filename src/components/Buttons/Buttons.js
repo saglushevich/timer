@@ -4,7 +4,9 @@ import {setTimerType} from '../reduxAction/reduxAction'
 
 function Buttons () {
     const dispatch = useDispatch();
-    const timerType = useSelector(state => state.timerType)
+    const timerType = useSelector(state => state.timerType);
+    const mainColor = useSelector(state => state.mainColor);
+    const mainFont = useSelector(state => state.mainFont)
 
     const types = [
         {type: 'timer', title: "Отсчет"},
@@ -17,7 +19,7 @@ function Buttons () {
         const active = type === timerType;
         const activeClass = active ? "buttons__item buttons__item_active" : "buttons__item";
         return (
-            <div key={title} onClick={() => dispatch(setTimerType(type))}  className={activeClass}>{title}</div>
+            <div key={title} onClick={() => dispatch(setTimerType(type))} style={active ? {"backgroundColor" : `${mainColor}`, "fontFamily" : `${mainFont}`} : {"fontFamily" : `${mainFont}`}} className={activeClass}>{title}</div>
         )
     })
 
