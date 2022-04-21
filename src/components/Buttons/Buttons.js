@@ -23,9 +23,23 @@ function Buttons () {
         )
     })
 
+    let wrapperStyle = 'buttons__wrapper';
+
+    switch (mainFont) {
+        case "Space Mono":
+            wrapperStyle += ' buttons__wrapper_medium';
+            break;
+        case "Roboto Slab":
+            wrapperStyle += ' buttons__wrapper_large';
+            break;
+        default:
+            wrapperStyle += ' buttons__wrapper_small'
+            break;
+    }
+
     return (
         <div className="buttons">
-            <div className="buttons__wrapper">
+            <div className= {wrapperStyle}>
                 {btns}
             </div>
         </div>

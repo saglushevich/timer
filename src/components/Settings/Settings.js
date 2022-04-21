@@ -3,7 +3,7 @@ import settingsIcon from '../../resources/settings.svg'
 import {useState} from 'react'
 
 import {useSelector, useDispatch} from 'react-redux'
-import {setTime, setInitialTime, setShortBrake, setLongBrake, setMainColor, setMainFont} from '../reduxAction/reduxAction'
+import {setTime, setInitialTime, setStartedTime, setShortBrake, setLongBrake, setMainColor, setMainFont} from '../reduxAction/reduxAction'
 
 function Settings () {
 
@@ -31,6 +31,9 @@ function Settings () {
     const onFormSubmit = (e) => {
         e.preventDefault();
         dispatch(setTime(countdown));
+
+        dispatch(setStartedTime(countdown));
+
         dispatch(setInitialTime(countdown));
         dispatch(setShortBrake(shortBrakeTime));
         dispatch(setLongBrake(longBrakeTime));
@@ -38,6 +41,7 @@ function Settings () {
         dispatch(setMainFont(font));
         sessionStorage.setItem("time", countdown);
         sessionStorage.setItem("shortBrake", shortBrakeTime);
+        sessionStorage.setItem('startedTime', countdown)
         sessionStorage.setItem("longBrake", longBrakeTime);
         sessionStorage.setItem("color", color);
         sessionStorage.setItem("font", font);
@@ -55,7 +59,7 @@ function Settings () {
                         <div className="popup__section">
                             <div className="popup__subtitle" style={{"fontFamily": `${font}`}}>Время (минуты)</div>
                             <div className="popup__inputs">
-                                <label className="popup__label" style={{"fontFamily": `${font}`}}>Отсчет<input onChange={(e) => setCountdown(e.target.value*60)} required defaultValue={Math.floor(initialTime / 60)} type="number" className="popup__input"></input></label>
+                                <label className="popup__label" style={{"fontFamily": `${font}`}}>Отсчет<input onChange={(e) => setCountdown(e.target.value*60)} required defaultValue={Math.floor(initialTime / 60)} max={960} type="number" className="popup__input"></input></label>
                                 <label className="popup__label" style={{"fontFamily": `${font}`}}>Короткий перерыв<input onChange={(e) => setShortBrakeTime(e.target.value * 60)} required defaultValue={shortBrake / 60} type="number" className="popup__input"></input></label>
                                 <label className="popup__label" style={{"fontFamily": `${font}`}}>Длинный перерыв<input onChange={(e) => setLongBrakeTime(e.target.value * 60)} required defaultValue={longBrake / 60} type="number" className="popup__input"></input></label>
                             </div>

@@ -1,6 +1,7 @@
 const initialState = {
     time: sessionStorage.getItem('time') || 3600,
     initialTime: 3600,
+    startedTime: sessionStorage.getItem('startedTime') || 3600,
     shortBrake:  sessionStorage.getItem('shortBrake') || 300,
     longBrake:  sessionStorage.getItem('longBrake') || 900,
     timerType: sessionStorage.getItem("time") && sessionStorage.getItem("time") < 3600 ? 'timers' : 'timer',
@@ -15,6 +16,8 @@ const reducer = (state = initialState, action) => {
             return {...state, time: action.payload}
         case "SET_INITIAL_TIME":
             return {...state, initialTime: action.payload}
+        case "SET_STARTED_TIME":
+            return {...state, startedTime: action.payload}
         case "SET_SHORT_BRAKE":
             return {...state, shortBrake: action.payload}
         case "SET_LONG_BRAKE":

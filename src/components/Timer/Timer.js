@@ -14,10 +14,10 @@ function Timer () {
     const initialTime = useSelector(state => state.initialTime);
     const mainColor = useSelector(state => state.mainColor);
     const mainFont = useSelector(state => state.mainFont)
+    const startedTime = useSelector(state => state.startedTime)
 
-    const [minutes, setMinutes] = useState(0);
+    const [minutes, setMinutes] = useState(60);
     const [seconds, setSeconds] = useState(0);
-
 
     const dispatch = useDispatch();
 
@@ -43,14 +43,12 @@ function Timer () {
         dispatch(setTime(initialTime))
         dispatch(setTimerStatus(true))
     }
-
+    
     useEffect(() => {
         startTimer();
-
         if (sessionStorage.getItem("time") == 0) {
             sessionStorage.removeItem("time")
         }
-
         setMinutes(minutes => Math.floor(time / 60));
         setSeconds(seconds => time % 60)
     }, [timerStatus, time])
@@ -59,7 +57,7 @@ function Timer () {
         <div className="timer">
             <div className="timer__wrapper" style={time === 0 ? {"boxShadow" : ` -25px -25px 100px ${mainColor}, 25px 25px 100px ${mainColor} `, "background" : `linear-gradient(315deg, #2E325A 0%, ${mainColor} 100%)` } : null}>
                 <div className="timer__oval">
-                    <div className="timer__progress" style={{"background" : `conic-gradient(${mainColor} ${(time * 100) / initialTime}%, #161932 0%)`}}>
+                    <div className="timer__progress" style={{"background" : `conic-gradient(${mainColor} ${(time * 100) / startedTime}%, #161932 0%)`}}>
                         <div className="timer__info">
                             <div className="timer__time" style={{"fontFamily": `${mainFont}`}}>{Math.floor(minutes)}:{seconds >= 10 ? seconds : `0${seconds}`}</div>
                             <div onClick={() => dispatch(setTimerStatus(!timerStatus))} style={timerStatus ? {"display" : "none"} : {"display" : "block", "fontFamily": `${mainFont}`}} className="timer__btn">Старт</div>
