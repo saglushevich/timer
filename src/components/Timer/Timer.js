@@ -6,15 +6,15 @@ import {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {setInitialTime, setTime, setTimerStatus} from '../reduxAction/reduxAction'
 
-function Timer () {
+function Timer (props) {
 
-    const time = useSelector(state => state.time);
+    const time = useSelector(state => state.time)
+    const {started} = props;
     
     const timerStatus = useSelector(state => state.timerStatus);
     const initialTime = useSelector(state => state.initialTime);
     const mainColor = useSelector(state => state.mainColor);
-    const mainFont = useSelector(state => state.mainFont)
-    const startedTime = useSelector(state => state.startedTime)
+    const mainFont = useSelector(state => state.mainFont);
 
     const [minutes, setMinutes] = useState(60);
     const [seconds, setSeconds] = useState(0);
@@ -25,12 +25,12 @@ function Timer () {
         if (time > 0 && timerStatus) {
             setTimeout(() => {
                 dispatch(setTime(time - 1))
+                sessionStorage.setItem('time', time)
             }, 1000)
         } else {
             dispatch(setTimerStatus(false))
             dispatch(setTime(initialTime))
         }
-        sessionStorage.setItem('time', time)
     }
 
     const stopTimer = () => {
@@ -57,7 +57,7 @@ function Timer () {
         <div className="timer">
             <div className="timer__wrapper" style={time === 0 ? {"boxShadow" : ` -25px -25px 100px ${mainColor}, 25px 25px 100px ${mainColor} `, "background" : `linear-gradient(315deg, #2E325A 0%, ${mainColor} 100%)` } : null}>
                 <div className="timer__oval">
-                    <div className="timer__progress" style={{"background" : `conic-gradient(${mainColor} ${(time * 100) / startedTime}%, #161932 0%)`}}>
+                    <div className="timer__progress" style={{"background" : `conic-gradient(${mainColor} ${(time * 100) / started}%, #161932 0%)`}}>
                         <div className="timer__info">
                             <div className="timer__time" style={{"fontFamily": `${mainFont}`}}>{Math.floor(minutes)}:{seconds >= 10 ? seconds : `0${seconds}`}</div>
                             <div onClick={() => dispatch(setTimerStatus(!timerStatus))} style={timerStatus ? {"display" : "none"} : {"display" : "block", "fontFamily": `${mainFont}`}} className="timer__btn">Старт</div>

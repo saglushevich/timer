@@ -12,13 +12,6 @@ export const setInitialTime = (value) => {
     }
 }
 
-export const setStartedTime = (value) => {
-    return {
-        type: "SET_STARTED_TIME",
-        payload: value
-    }
-}
-
 export const setShortBrake = (value) => {
     return {
         type: "SET_SHORT_BRAKE",

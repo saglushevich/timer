@@ -3,26 +3,27 @@ import Timer from "../Timer/Timer";
 import Buttons from "../Buttons/Buttons";
 import Settings from "../Settings/Settings";
 import '../../styles/styles.sass'
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import {setTime, setInitialTime, setTimerStatus, setStartedTime} from '../reduxAction/reduxAction'
+import {setTime, setInitialTime, setTimerStatus} from '../reduxAction/reduxAction'
 
 function App() {
     const timerType = useSelector(state => state.timerType)
     const dispatch = useDispatch();
+    const time = useSelector(state => state.time)
 
     const shortBrake = useSelector(state => state.shortBrake);
     const longBrake = useSelector(state => state.longBrake);
-    const startedTime = useSelector(state => state.startedTime)
+
+    const [started, setStarted] = useState(time)
 
     const makeChangesDependingOnType = (time) => {
         dispatch(setTime(time));
         dispatch(setTimerStatus(false));
         dispatch(setInitialTime(time));
-        dispatch(setStartedTime(sessionStorage.getItem('startedTime')))
+        setStarted(time)
     }
 
-    console.log(startedTime)
     useEffect(() => {
         switch (timerType) {
             case "short":
@@ -32,18 +33,21 @@ function App() {
                 makeChangesDependingOnType(longBrake);
                 break;
             case "timer": 
-                makeChangesDependingOnType(startedTime);
+                makeChangesDependingOnType(3600);
+                break;
+            case "settedTime":
+                makeChangesDependingOnType(sessionStorage.getItem('settedTime'));
                 break;
             default:
                 dispatch(setTime(sessionStorage.getItem('time')))
         }    
-    }, [timerType])
+    }, [timerType, shortBrake, longBrake])
 
     return (
         <div className="App">
             <div className="container">
                 <Buttons/>
-                <Timer/>
+                <Timer started={started}/>
                 <Settings/>
             </div>
         </div>
